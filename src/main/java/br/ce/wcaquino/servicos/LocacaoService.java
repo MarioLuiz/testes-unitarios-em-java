@@ -7,6 +7,7 @@ import java.util.Date;
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
+import br.ce.wcaquino.utils.DataUtils;
 
 public class LocacaoService {
 	
@@ -23,12 +24,34 @@ public class LocacaoService {
 		locacao.setDataRetorno(dataEntrega);
 		
 		//Salvando a locacao...	
-		//TODO adicionar método para salvar
+		//TODO adicionar metodo para salvar
+		
 		
 		return locacao;
 	}
 
 	public static void main(String[] args) {
+		
+		// cenario
+		LocacaoService service = new  LocacaoService();
+		Usuario usuario =  new Usuario("Mario");
+		Filme filme = new Filme("Uma linda mulher", 1, 10.00);
+		
+		// acao
+		Locacao locacao = service.alugarFilme(usuario,filme);
+		
+		// verificacao
+		if(DataUtils.isMesmaData(new Date(),locacao.getDataLocacao())) {
+			System.out.println("Passou teste DataLocacao");
+		}
+		
+		if(DataUtils.isMesmaData(DataUtils.obterDataComDiferencaDias(1),locacao.getDataRetorno())) {
+			System.out.println("Passou teste DataRetorno");
+		}
+		
+		if(locacao.getValor() == 10.00) {
+			System.out.println("Passou teste ValorLocacao");
+		}
 		
 	}
 }
