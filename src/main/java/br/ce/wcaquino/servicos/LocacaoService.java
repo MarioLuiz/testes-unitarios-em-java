@@ -4,6 +4,9 @@ import static br.ce.wcaquino.utils.DataUtils.adicionarDias;
 
 import java.util.Date;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
@@ -29,8 +32,9 @@ public class LocacaoService {
 		
 		return locacao;
 	}
-
-	public static void main(String[] args) {
+	
+	@Test
+	public void teste() {
 		
 		// cenario
 		LocacaoService service = new  LocacaoService();
@@ -41,17 +45,11 @@ public class LocacaoService {
 		Locacao locacao = service.alugarFilme(usuario,filme);
 		
 		// verificacao
-		if(DataUtils.isMesmaData(new Date(),locacao.getDataLocacao())) {
-			System.out.println("Passou teste DataLocacao");
-		}
+		Assert.assertTrue(DataUtils.isMesmaData(new Date(),locacao.getDataLocacao()));
 		
-		if(DataUtils.isMesmaData(DataUtils.obterDataComDiferencaDias(1),locacao.getDataRetorno())) {
-			System.out.println("Passou teste DataRetorno");
-		}
+		Assert.assertTrue(DataUtils.isMesmaData(DataUtils.obterDataComDiferencaDias(1),locacao.getDataRetorno()));
 		
-		if(locacao.getValor() == 10.00) {
-			System.out.println("Passou teste ValorLocacao");
-		}
+		Assert.assertTrue(locacao.getValor() == 10.00);
 		
 	}
 }
