@@ -9,7 +9,6 @@ import org.junit.Test;
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
-import br.ce.wcaquino.servicos.LocacaoService;
 import br.ce.wcaquino.utils.DataUtils;
 
 public class LocacaoServiceTest {
@@ -30,7 +29,7 @@ public class LocacaoServiceTest {
 		
 		Assert.assertTrue(DataUtils.isMesmaData(DataUtils.obterDataComDiferencaDias(1),locacao.getDataRetorno()));
 		
-		Assert.assertTrue(locacao.getValor() == 10.00);
+		Assert.assertEquals(10.00 , locacao.getValor(), 0.01);
 		
 	}
 }
