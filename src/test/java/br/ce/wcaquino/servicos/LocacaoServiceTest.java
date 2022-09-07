@@ -7,7 +7,11 @@ import static org.junit.Assert.assertTrue;
 import java.util.Date;
 
 import org.hamcrest.CoreMatchers;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -22,20 +26,40 @@ import br.ce.wcaquino.utils.DataUtils;
 
 public class LocacaoServiceTest {
 
+	private LocacaoService service;
+
 	@Rule
 	public ErrorCollector error = new ErrorCollector();
 
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
 
+	@Before
+	public void setup() {
+		service = new LocacaoService();
+	}
+
+	@After
+	public void tearDown() {
+	}
+	
+	@BeforeClass
+	public static void setupClass() {
+		System.out.println("@BeforeClass");
+	}
+
+	@AfterClass
+	public static void tearDownClass() {
+		System.out.println("@AfterClass");
+	}
+
 	@Test
 	public void testeLocacao() throws Exception {
-
-		// cenario
-		LocacaoService service = new LocacaoService();
+		
+		//cenario
 		Usuario usuario = new Usuario("Mario");
 		Filme filme = new Filme("Uma linda mulher", 2, 10.00);
-
+		
 		// acao
 		Locacao locacao = null;
 
@@ -64,7 +88,6 @@ public class LocacaoServiceTest {
 	@Test(expected = FilmeSemEstoqueException.class)
 	public void testLocacao_filmeSemEstoque() throws Exception {
 		// cenario
-		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Mario");
 		Filme filme = new Filme("Uma linda mulher", 0, 10.00);
 
@@ -76,7 +99,6 @@ public class LocacaoServiceTest {
 	@Test
 	public void testLocacao_filmeSemEstoque2() {
 		// cenario
-		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Mario");
 		Filme filme = new Filme("Uma linda mulher", 0, 10.00);
 
@@ -93,7 +115,6 @@ public class LocacaoServiceTest {
 	@Test
 	public void testLocacao_filmeSemEstoque3() throws Exception {
 		// cenario
-		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Mario");
 		Filme filme = new Filme("Uma linda mulher", 0, 10.00);
 
@@ -107,7 +128,6 @@ public class LocacaoServiceTest {
 	@Test
 	public void testLocacao_usuarioNull() throws FilmeSemEstoqueException {
 		// cenario
-		LocacaoService service = new LocacaoService();
 		Usuario usuario = null;
 		Filme filme = new Filme("Uma linda mulher", 1, 10.00);
 
@@ -118,14 +138,13 @@ public class LocacaoServiceTest {
 		} catch (LocadoraException e) {
 			Assert.assertThat(e.getMessage(), CoreMatchers.is("Usuario vazio"));
 		}
-		
+
 		System.out.println("Forma Robusta");
 	}
-	
+
 	@Test
-	public void testLocacao_filmeNull() throws FilmeSemEstoqueException, LocadoraException{
+	public void testLocacao_filmeNull() throws FilmeSemEstoqueException, LocadoraException {
 		// cenario
-		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Mario");
 		Filme filme = null;
 
