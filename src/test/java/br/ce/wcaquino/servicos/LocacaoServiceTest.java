@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.After;
@@ -60,9 +61,7 @@ public class LocacaoServiceTest {
 		
 		//cenario
 		Usuario usuario = new Usuario("Mario");
-		Filme filme = new Filme("Uma linda mulher", 2, 10.00);
-		ArrayList<Filme> filmes = new ArrayList<>();
-		filmes.add(filme);
+		List<Filme> filmes = Arrays.asList(new Filme("Uma linda mulher", 2, 10.00));
 		
 		// acao
 		Locacao locacao = null;
@@ -93,9 +92,7 @@ public class LocacaoServiceTest {
 	public void testLocacao_filmeSemEstoque() throws Exception {
 		// cenario
 		Usuario usuario = new Usuario("Mario");
-		Filme filme = new Filme("Uma linda mulher", 0, 10.00);
-		ArrayList<Filme> filmes = new ArrayList<>();
-		filmes.add(filme);
+		List<Filme> filmes = Arrays.asList(new Filme("Uma linda mulher", 0, 10.00));
 
 		// acao
 		service.alugarFilme(usuario, filmes);
@@ -106,8 +103,7 @@ public class LocacaoServiceTest {
 	public void testLocacao_filmeSemEstoque2() {
 		// cenario
 		Usuario usuario = new Usuario("Mario");
-		ArrayList<Filme> filmes = (ArrayList<Filme>) Arrays.asList(new Filme("Uma linda mulher", 0, 10.00));
-
+		List<Filme> filmes = Arrays.asList(new Filme("Uma linda mulher", 0, 10.00));
 		// acao
 		try {
 			service.alugarFilme(usuario, filmes);
@@ -122,7 +118,7 @@ public class LocacaoServiceTest {
 	public void testLocacao_filmeSemEstoque3() throws Exception {
 		// cenario
 		Usuario usuario = new Usuario("Mario");
-		ArrayList<Filme> filmes = (ArrayList<Filme>) Arrays.asList(new Filme("Uma linda mulher", 0, 10.00));
+		List<Filme> filmes = Arrays.asList(new Filme("Uma linda mulher", 0, 10.00));
 
 		expectedException.expect(Exception.class);
 		expectedException.expectMessage("Filme sem estoque");
@@ -135,7 +131,7 @@ public class LocacaoServiceTest {
 	public void testLocacao_usuarioNull() throws FilmeSemEstoqueException {
 		// cenario
 		Usuario usuario = null;
-		ArrayList<Filme> filmes = (ArrayList<Filme>) Arrays.asList(new Filme("Uma linda mulher", 2, 10.00));
+		List<Filme> filmes = Arrays.asList(new Filme("Uma linda mulher", 2, 10.00));
 
 		// acao
 		try {

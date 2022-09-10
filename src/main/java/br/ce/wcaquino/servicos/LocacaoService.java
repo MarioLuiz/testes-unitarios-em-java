@@ -19,15 +19,15 @@ public class LocacaoService {
 			throw new LocadoraException("Usuario vazio");
 		}
 
-		if (filmes.isEmpty()) {
+		if (filmes == null || filmes.isEmpty()) {
 			throw new LocadoraException("Filme vazio");
 		}
 
-		filmes.forEach(filme -> {
-			if(filme.getEstoque() == 0){
+		for (Filme filme : filmes) {
+			if (filme.getEstoque() == 0) {
 				throw new FilmeSemEstoqueException("Filme sem estoque");
 			}
-		});
+		}
 
 		Locacao locacao = new Locacao();
 		locacao.setFilmes(filmes);
@@ -35,8 +35,8 @@ public class LocacaoService {
 		locacao.setDataLocacao(new Date());
 
 		Double valorLocacao = 0.00;
-		for (int i = 0; i < filmes.size(); i++) {
-			valorLocacao += filmes.get(i).getPrecoLocacao();
+		for( Filme filme : filmes) {
+			valorLocacao += filme.getPrecoLocacao();
 		}
 
 		locacao.setValor(valorLocacao);
