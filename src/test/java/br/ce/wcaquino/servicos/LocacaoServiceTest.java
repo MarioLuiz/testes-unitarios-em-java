@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import org.hamcrest.CoreMatchers;
@@ -59,11 +61,13 @@ public class LocacaoServiceTest {
 		//cenario
 		Usuario usuario = new Usuario("Mario");
 		Filme filme = new Filme("Uma linda mulher", 2, 10.00);
+		ArrayList<Filme> filmes = new ArrayList<>();
+		filmes.add(filme);
 		
 		// acao
 		Locacao locacao = null;
 
-		locacao = service.alugarFilme(usuario, filme);
+		locacao = service.alugarFilme(usuario, filmes);
 
 		// verificacao
 		assertTrue(DataUtils.isMesmaData(new Date(), locacao.getDataLocacao()));
@@ -90,9 +94,11 @@ public class LocacaoServiceTest {
 		// cenario
 		Usuario usuario = new Usuario("Mario");
 		Filme filme = new Filme("Uma linda mulher", 0, 10.00);
+		ArrayList<Filme> filmes = new ArrayList<>();
+		filmes.add(filme);
 
 		// acao
-		service.alugarFilme(usuario, filme);
+		service.alugarFilme(usuario, filmes);
 		System.out.println("Forma Elegante");
 	}
 
@@ -100,11 +106,11 @@ public class LocacaoServiceTest {
 	public void testLocacao_filmeSemEstoque2() {
 		// cenario
 		Usuario usuario = new Usuario("Mario");
-		Filme filme = new Filme("Uma linda mulher", 0, 10.00);
+		ArrayList<Filme> filmes = (ArrayList<Filme>) Arrays.asList(new Filme("Uma linda mulher", 0, 10.00));
 
 		// acao
 		try {
-			service.alugarFilme(usuario, filme);
+			service.alugarFilme(usuario, filmes);
 			Assert.fail("Deveria ter lançado uma exception");
 		} catch (Exception e) {
 			// e.printStackTrace();
@@ -116,24 +122,24 @@ public class LocacaoServiceTest {
 	public void testLocacao_filmeSemEstoque3() throws Exception {
 		// cenario
 		Usuario usuario = new Usuario("Mario");
-		Filme filme = new Filme("Uma linda mulher", 0, 10.00);
+		ArrayList<Filme> filmes = (ArrayList<Filme>) Arrays.asList(new Filme("Uma linda mulher", 0, 10.00));
 
 		expectedException.expect(Exception.class);
 		expectedException.expectMessage("Filme sem estoque");
 
 		// acao
-		service.alugarFilme(usuario, filme);
+		service.alugarFilme(usuario, filmes);
 	}
 
 	@Test
 	public void testLocacao_usuarioNull() throws FilmeSemEstoqueException {
 		// cenario
 		Usuario usuario = null;
-		Filme filme = new Filme("Uma linda mulher", 1, 10.00);
+		ArrayList<Filme> filmes = (ArrayList<Filme>) Arrays.asList(new Filme("Uma linda mulher", 2, 10.00));
 
 		// acao
 		try {
-			service.alugarFilme(usuario, filme);
+			service.alugarFilme(usuario, filmes);
 			Assert.fail("Deveria ter lançado uma exception");
 		} catch (LocadoraException e) {
 			Assert.assertThat(e.getMessage(), CoreMatchers.is("Usuario vazio"));
@@ -146,13 +152,13 @@ public class LocacaoServiceTest {
 	public void testLocacao_filmeNull() throws FilmeSemEstoqueException, LocadoraException {
 		// cenario
 		Usuario usuario = new Usuario("Mario");
-		Filme filme = null;
+		ArrayList<Filme> filmes = null;
 
 		expectedException.expect(LocadoraException.class);
 		expectedException.expectMessage("Filme vazio");
 
 		// acao
-		service.alugarFilme(usuario, filme);
+		service.alugarFilme(usuario, filmes);
 		System.out.println("Forma Nova");
 	}
 }
