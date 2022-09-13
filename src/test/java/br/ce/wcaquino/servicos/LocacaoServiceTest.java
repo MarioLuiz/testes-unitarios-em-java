@@ -157,4 +157,36 @@ public class LocacaoServiceTest {
 		service.alugarFilme(usuario, filmes);
 		System.out.println("Forma Nova");
 	}
+	
+	@Test
+	public void testeLocacaoComDescontoProgressivo() throws Exception {
+		
+		//cenario
+		Usuario usuario = new Usuario("Mario");
+		List<Filme> filmes = new ArrayList<Filme>();
+				filmes.addAll(Arrays.asList(new Filme("Uma linda mulher", 2, 10.00), new Filme("Top Gun", 1, 15.00),
+				new Filme("Pato Donald", 3, 15.00), new Filme("As Branquelas", 2, 12.00), new Filme("Re Zero", 5, 13.00)
+				,new Filme("Chacal", 2, 13.00)));
+		
+		// acao
+		Locacao locacao = service.alugarFilme(usuario, filmes);
+
+		// verificacao
+		for (int i = 0; i < filmes.size(); i++) {
+			if(i == 2) {
+				assertThat(filmes.get(i).getDesconto.porcentagem, CoreMatchers.is(25.00));
+			}
+			if(i == 3) {
+				assertThat(filmes.get(i).getDesconto.porcentagem, CoreMatchers.is(50.00));
+			}
+			if(i == 4) {
+				assertThat(filmes.get(i).getDesconto.porcentagem, CoreMatchers.is(75.00));
+			}
+			if(i == 5) {
+				assertThat(filmes.get(i).getDesconto.porcentagem, CoreMatchers.is(1.00));
+			}
+		}
+	}
+	
+	
 }
