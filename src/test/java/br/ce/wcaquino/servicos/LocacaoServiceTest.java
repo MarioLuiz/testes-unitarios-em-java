@@ -57,7 +57,7 @@ public class LocacaoServiceTest {
 	}
 
 	@Test
-	public void testeLocacao() throws Exception {
+	public void deveAlugarFilme() throws Exception {
 		
 		//cenario
 		Usuario usuario = new Usuario("Mario");
@@ -89,7 +89,7 @@ public class LocacaoServiceTest {
 	}
 
 	@Test(expected = FilmeSemEstoqueException.class)
-	public void testLocacao_filmeSemEstoque() throws Exception {
+	public void deveLancarExeptionAoAlugarFilmeSemEstoque() throws Exception {
 		// cenario
 		Usuario usuario = new Usuario("Mario");
 		List<Filme> filmes = Arrays.asList(new Filme("Uma linda mulher", 0, 10.00));
@@ -100,7 +100,7 @@ public class LocacaoServiceTest {
 	}
 
 	@Test
-	public void testLocacao_filmeSemEstoque2() {
+	public void deveLancarExeptionAoAlugarFilmeSemEstoque2() {
 		// cenario
 		Usuario usuario = new Usuario("Mario");
 		List<Filme> filmes = Arrays.asList(new Filme("Uma linda mulher", 0, 10.00));
@@ -115,7 +115,7 @@ public class LocacaoServiceTest {
 	}
 
 	@Test
-	public void testLocacao_filmeSemEstoque3() throws Exception {
+	public void deveLancarExeptionAoAlugarFilmeSemEstoque3() throws Exception {
 		// cenario
 		Usuario usuario = new Usuario("Mario");
 		List<Filme> filmes = Arrays.asList(new Filme("Uma linda mulher", 0, 10.00));
@@ -128,7 +128,7 @@ public class LocacaoServiceTest {
 	}
 
 	@Test
-	public void testLocacao_usuarioNull() throws FilmeSemEstoqueException {
+	public void deveLancarExeptionAoAlugarFilmeUsuarioNulo() throws FilmeSemEstoqueException {
 		// cenario
 		Usuario usuario = null;
 		List<Filme> filmes = Arrays.asList(new Filme("Uma linda mulher", 2, 10.00));
@@ -145,7 +145,7 @@ public class LocacaoServiceTest {
 	}
 
 	@Test
-	public void testLocacao_filmeNull() throws FilmeSemEstoqueException, LocadoraException {
+	public void deveLancarExeptionAoAlugarFilmeNulo() throws FilmeSemEstoqueException, LocadoraException {
 		// cenario
 		Usuario usuario = new Usuario("Mario");
 		ArrayList<Filme> filmes = null;
@@ -159,7 +159,76 @@ public class LocacaoServiceTest {
 	}
 	
 	@Test
-	public void testeLocacaoComDescontoProgressivo() throws Exception {
+	public void deveFornecerDesconto25PctNoFilme3() throws FilmeSemEstoqueException, LocadoraException {
+		
+		//cenario
+		Usuario usuario = new Usuario("Mario");
+		List<Filme> filmes = new ArrayList<Filme>();
+				filmes.addAll(Arrays.asList(new Filme("Uma linda mulher", 2, 10.00), new Filme("Top Gun", 1, 15.00),
+				new Filme("Pato Donald", 3, 12.00)));
+		
+		// acao
+		Locacao locacao = service.alugarFilme(usuario, filmes);
+
+		// verificacao
+		// 10 + 15 + 9
+		assertThat(locacao.getValor(), CoreMatchers.is(34.00));
+	}
+	
+	@Test
+	public void deveFornecerDesconto50PctNoFilme4() throws FilmeSemEstoqueException, LocadoraException {
+		
+		//cenario
+		Usuario usuario = new Usuario("Mario");
+		List<Filme> filmes = new ArrayList<Filme>();
+				filmes.addAll(Arrays.asList(new Filme("Uma linda mulher", 2, 10.00), new Filme("Top Gun", 1, 14.00),
+				new Filme("Pato Donald", 3, 12.00), new Filme("As Branquelas", 2, 12.00)));
+		
+		// acao
+		Locacao locacao = service.alugarFilme(usuario, filmes);
+
+		// verificacao
+		// 10 + 14 + 9 + 6
+		assertThat(locacao.getValor(), CoreMatchers.is(39.00));
+	}
+	
+	@Test
+	public void deveFornecerDesconto75PctNoFilme5() throws FilmeSemEstoqueException, LocadoraException {
+		
+		//cenario
+		Usuario usuario = new Usuario("Mario");
+		List<Filme> filmes = new ArrayList<Filme>();
+				filmes.addAll(Arrays.asList(new Filme("Uma linda mulher", 2, 10.00), new Filme("Top Gun", 1, 14.00),
+				new Filme("Pato Donald", 3, 12.00), new Filme("As Branquelas", 2, 12.00), new Filme("O Senhor dos Aneis", 2, 16.00)));
+		
+		// acao
+		Locacao locacao = service.alugarFilme(usuario, filmes);
+
+		// verificacao
+		// 10 + 14 + 9 + 6 + 4
+		assertThat(locacao.getValor(), CoreMatchers.is(43.00));
+	}
+	
+	@Test
+	public void deveFornecerDesconto100PctNoFilme6() throws FilmeSemEstoqueException, LocadoraException {
+		
+		//cenario
+		Usuario usuario = new Usuario("Mario");
+		List<Filme> filmes = new ArrayList<Filme>();
+				filmes.addAll(Arrays.asList(new Filme("Uma linda mulher", 2, 10.00), new Filme("Top Gun", 1, 14.00),
+				new Filme("Pato Donald", 3, 12.00), new Filme("As Branquelas", 2, 12.00), new Filme("O Senhor dos Aneis", 2, 16.00),
+				new Filme("Ace Ventura", 2, 16.00)));
+		
+		// acao
+		Locacao locacao = service.alugarFilme(usuario, filmes);
+
+		// verificacao
+		// 10 + 14 + 9 + 6 + 4
+		assertThat(locacao.getValor(), CoreMatchers.is(43.00));
+	}
+	
+	@Test
+	public void deveFornecerDescontoProgressivoParaVariosFilmes() throws Exception {
 		
 		//cenario
 		Usuario usuario = new Usuario("Mario");
@@ -174,19 +243,17 @@ public class LocacaoServiceTest {
 		// verificacao
 		for (int i = 0; i < filmes.size(); i++) {
 			if(i == 2) {
-				assertThat(filmes.get(i).getDesconto.porcentagem, CoreMatchers.is(25.00));
+				//assertThat(filmes.get(i).getDesconto.porcentagem, CoreMatchers.is(25.00));
 			}
 			if(i == 3) {
-				assertThat(filmes.get(i).getDesconto.porcentagem, CoreMatchers.is(50.00));
+				//assertThat(filmes.get(i).getDesconto.porcentagem, CoreMatchers.is(50.00));
 			}
 			if(i == 4) {
-				assertThat(filmes.get(i).getDesconto.porcentagem, CoreMatchers.is(75.00));
+				//assertThat(filmes.get(i).getDesconto.porcentagem, CoreMatchers.is(75.00));
 			}
 			if(i == 5) {
-				assertThat(filmes.get(i).getDesconto.porcentagem, CoreMatchers.is(1.00));
+				//assertThat(filmes.get(i).getDesconto.porcentagem, CoreMatchers.is(1.00));
 			}
 		}
 	}
-	
-	
 }
