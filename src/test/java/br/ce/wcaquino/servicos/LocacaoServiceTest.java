@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import org.hamcrest.CoreMatchers;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -58,7 +60,7 @@ public class LocacaoServiceTest {
 
 	@Test
 	public void deveAlugarFilme() throws Exception {
-		
+		Assume.assumeFalse(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
 		//cenario
 		Usuario usuario = new Usuario("Mario");
 		List<Filme> filmes = Arrays.asList(new Filme("Uma linda mulher", 2, 10.00));
@@ -225,6 +227,25 @@ public class LocacaoServiceTest {
 		// verificacao
 		// 10 + 14 + 9 + 6 + 4
 		assertThat(locacao.getValor(), CoreMatchers.is(43.00));
+	}
+	
+	@Test
+	public void deveDevolverNaSegundaAoAlugarNoSabado() throws FilmeSemEstoqueException, LocadoraException {
+		Assume.assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
+		
+		//cenario
+		Usuario usuario = new Usuario("Mario");
+		List<Filme> filmes = new ArrayList<Filme>();
+				filmes.addAll(Arrays.asList(new Filme("Uma linda mulher", 2, 10.00), new Filme("Top Gun", 1, 14.00),
+				new Filme("Pato Donald", 3, 12.00), new Filme("As Branquelas", 2, 12.00), new Filme("O Senhor dos Aneis", 2, 16.00),
+				new Filme("Ace Ventura", 2, 16.00)));
+		
+		// acao
+		Locacao retorno = service.alugarFilme(usuario, filmes);
+
+		// verificacao
+		boolean ehSegunda = DataUtils.verificarDiaSemana(retorno.getDataRetorno(), Calendar.MONDAY);
+		assertTrue(ehSegunda);
 	}
 	
 	@Test
