@@ -246,6 +246,9 @@ public class LocacaoServiceTest {
 		// verificacao
 		boolean ehSegunda = DataUtils.verificarDiaSemana(retorno.getDataRetorno(), Calendar.MONDAY);
 		assertTrue(ehSegunda);
+		
+		// assertThat(retorno.getDataRetorno(), caiEm(Calendar.MONDAY));
+		// assertThat(retorno.getDataRotorno(), caiNumaSegunda());
 	}
 	
 	@Test
