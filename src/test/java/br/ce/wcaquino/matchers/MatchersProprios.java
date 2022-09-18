@@ -12,4 +12,8 @@ public class MatchersProprios {
 		return new DiaSemanaMatcher(Calendar.MONDAY);
 	}
 
+	public static DiferencaDeDiasMatcher ehHoje() {return new DiferencaDeDiasMatcher(0); }
+
+	public static DiferencaDeDiasMatcher ehHojeComDiferencaDeDias( int quantidadeDia) { return new DiferencaDeDiasMatcher(quantidadeDia);}
+
 }

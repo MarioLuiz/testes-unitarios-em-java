@@ -92,6 +92,11 @@ public class LocacaoServiceTest {
 		error.checkThat(DataUtils.isMesmaData(new Date(), locacao.getDataLocacao()), CoreMatchers.is(true));
 		error.checkThat(DataUtils.isMesmaData(DataUtils.obterDataComDiferencaDias(1), locacao.getDataRetorno()),
 				CoreMatchers.is(true));
+
+		// verificacao com Matchers proprios
+		error.checkThat(locacao.getDataLocacao(), MatchersProprios.ehHoje());
+		error.checkThat(locacao.getDataRetorno(), MatchersProprios.ehHojeComDiferencaDeDias(1));
+
 	}
 
 	@Test(expected = FilmeSemEstoqueException.class)
@@ -167,7 +172,7 @@ public class LocacaoServiceTest {
 	@Test
 	public void deveFornecerDesconto25PctNoFilme3() throws FilmeSemEstoqueException, LocadoraException {
 		
-		//cenario
+		// cenario
 		Usuario usuario = new Usuario("Mario");
 		List<Filme> filmes = new ArrayList<Filme>();
 				filmes.addAll(Arrays.asList(new Filme("Uma linda mulher", 2, 10.00), new Filme("Top Gun", 1, 15.00),
