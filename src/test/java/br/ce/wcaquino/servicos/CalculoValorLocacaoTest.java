@@ -1,8 +1,8 @@
 package br.ce.wcaquino.servicos;
 
+import static br.ce.wcaquino.builders.FilmeBuilder.umFilme;
 import static org.junit.Assert.assertThat;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -15,6 +15,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
+import br.ce.wcaquino.builders.FilmeBuilder;
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
@@ -40,13 +41,13 @@ public class CalculoValorLocacaoTest {
 		service = new LocacaoService();
 	}
 	
-	private static Filme filme1 = new Filme("Uma linda mulher", 2, 4.00); 
-	private static Filme filme2 = new Filme("Top Gun", 1, 4.00);
-	private static Filme filme3 = new Filme("Pato Donald", 3, 4.00);
-	private static Filme filme4 = new Filme("As Branquelas", 2, 4.00);
-	private static Filme filme5 = new Filme("O Senhor dos Aneis", 2, 4.00);
-	private static Filme filme6 = new Filme("Ace Ventura", 2, 4.00);
-	private static Filme filme7 = new Filme("A era do gelo", 2, 4.00);
+	private static Filme filme1 = umFilme().comValor(4.00).agora(); 
+	private static Filme filme2 = umFilme().comValor(4.00).agora(); 
+	private static Filme filme3 = umFilme().comValor(4.00).agora(); 
+	private static Filme filme4 = umFilme().comValor(4.00).agora(); 
+	private static Filme filme5 = umFilme().comValor(4.00).agora(); 
+	private static Filme filme6 = umFilme().comValor(4.00).agora(); 
+	private static Filme filme7 = umFilme().comValor(4.00).agora(); 
 	
 	@Parameters(name = "Teste {index} = {2}")
 	public static Collection<Object []> getParametros() {

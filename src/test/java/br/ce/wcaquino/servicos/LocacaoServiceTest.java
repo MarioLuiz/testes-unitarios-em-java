@@ -1,6 +1,7 @@
 package br.ce.wcaquino.servicos;
 
-import static br.ce.wcaquino.matchers.MatchersProprios.caiEm;
+import static br.ce.wcaquino.builders.FilmeBuilder.umFilme;
+import static br.ce.wcaquino.builders.UsuarioBuilder.umUsuario;
 import static br.ce.wcaquino.matchers.MatchersProprios.caiNumaSegunda;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -24,12 +25,12 @@ import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
 
+import br.ce.wcaquino.builders.FilmeBuilder;
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
 import br.ce.wcaquino.exception.FilmeSemEstoqueException;
 import br.ce.wcaquino.exception.LocadoraException;
-import br.ce.wcaquino.matchers.DiaSemanaMatcher;
 import br.ce.wcaquino.matchers.MatchersProprios;
 import br.ce.wcaquino.utils.DataUtils;
 
@@ -66,8 +67,8 @@ public class LocacaoServiceTest {
 	public void deveAlugarFilme() throws Exception {
 		Assume.assumeFalse(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
 		//cenario
-		Usuario usuario = new Usuario("Mario");
-		List<Filme> filmes = Arrays.asList(new Filme("Uma linda mulher", 2, 10.00));
+		Usuario usuario = umUsuario().agora();
+		List<Filme> filmes = Arrays.asList(umFilme().agora());
 		
 		// acao
 		Locacao locacao = null;
@@ -102,8 +103,8 @@ public class LocacaoServiceTest {
 	@Test(expected = FilmeSemEstoqueException.class)
 	public void deveLancarExeptionAoAlugarFilmeSemEstoque() throws Exception {
 		// cenario
-		Usuario usuario = new Usuario("Mario");
-		List<Filme> filmes = Arrays.asList(new Filme("Uma linda mulher", 0, 10.00));
+		Usuario usuario = umUsuario().agora();
+		List<Filme> filmes = Arrays.asList(umFilme().semEstoque().agora());
 
 		// acao
 		service.alugarFilme(usuario, filmes);
@@ -113,8 +114,8 @@ public class LocacaoServiceTest {
 	@Test
 	public void deveLancarExeptionAoAlugarFilmeSemEstoque2() {
 		// cenario
-		Usuario usuario = new Usuario("Mario");
-		List<Filme> filmes = Arrays.asList(new Filme("Uma linda mulher", 0, 10.00));
+		Usuario usuario = umUsuario().agora();
+		List<Filme> filmes = Arrays.asList(umFilme().semEstoque().agora());
 		// acao
 		try {
 			service.alugarFilme(usuario, filmes);
@@ -128,8 +129,8 @@ public class LocacaoServiceTest {
 	@Test
 	public void deveLancarExeptionAoAlugarFilmeSemEstoque3() throws Exception {
 		// cenario
-		Usuario usuario = new Usuario("Mario");
-		List<Filme> filmes = Arrays.asList(new Filme("Uma linda mulher", 0, 10.00));
+		Usuario usuario = umUsuario().agora();
+		List<Filme> filmes = Arrays.asList(umFilme().semEstoque().agora());
 
 		expectedException.expect(Exception.class);
 		expectedException.expectMessage("Filme sem estoque");
@@ -142,7 +143,7 @@ public class LocacaoServiceTest {
 	public void deveLancarExeptionAoAlugarFilmeUsuarioNulo() throws FilmeSemEstoqueException {
 		// cenario
 		Usuario usuario = null;
-		List<Filme> filmes = Arrays.asList(new Filme("Uma linda mulher", 2, 10.00));
+		List<Filme> filmes = Arrays.asList(umFilme().agora());
 
 		// acao
 		try {
@@ -158,7 +159,7 @@ public class LocacaoServiceTest {
 	@Test
 	public void deveLancarExeptionAoAlugarFilmeNulo() throws FilmeSemEstoqueException, LocadoraException {
 		// cenario
-		Usuario usuario = new Usuario("Mario");
+		Usuario usuario = umUsuario().agora();
 		ArrayList<Filme> filmes = null;
 
 		expectedException.expect(LocadoraException.class);
@@ -173,7 +174,7 @@ public class LocacaoServiceTest {
 	public void deveFornecerDesconto25PctNoFilme3() throws FilmeSemEstoqueException, LocadoraException {
 		
 		// cenario
-		Usuario usuario = new Usuario("Mario");
+		Usuario usuario = umUsuario().agora();
 		List<Filme> filmes = new ArrayList<Filme>();
 				filmes.addAll(Arrays.asList(new Filme("Uma linda mulher", 2, 10.00), new Filme("Top Gun", 1, 15.00),
 				new Filme("Pato Donald", 3, 12.00)));
@@ -190,7 +191,7 @@ public class LocacaoServiceTest {
 	public void deveFornecerDesconto50PctNoFilme4() throws FilmeSemEstoqueException, LocadoraException {
 		
 		//cenario
-		Usuario usuario = new Usuario("Mario");
+		Usuario usuario = umUsuario().agora();
 		List<Filme> filmes = new ArrayList<Filme>();
 				filmes.addAll(Arrays.asList(new Filme("Uma linda mulher", 2, 10.00), new Filme("Top Gun", 1, 14.00),
 				new Filme("Pato Donald", 3, 12.00), new Filme("As Branquelas", 2, 12.00)));
@@ -207,7 +208,7 @@ public class LocacaoServiceTest {
 	public void deveFornecerDesconto75PctNoFilme5() throws FilmeSemEstoqueException, LocadoraException {
 		
 		//cenario
-		Usuario usuario = new Usuario("Mario");
+		Usuario usuario = umUsuario().agora();
 		List<Filme> filmes = new ArrayList<Filme>();
 				filmes.addAll(Arrays.asList(new Filme("Uma linda mulher", 2, 10.00), new Filme("Top Gun", 1, 14.00),
 				new Filme("Pato Donald", 3, 12.00), new Filme("As Branquelas", 2, 12.00), new Filme("O Senhor dos Aneis", 2, 16.00)));
@@ -224,7 +225,7 @@ public class LocacaoServiceTest {
 	public void deveFornecerDesconto100PctNoFilme6() throws FilmeSemEstoqueException, LocadoraException {
 		
 		//cenario
-		Usuario usuario = new Usuario("Mario");
+		Usuario usuario = umUsuario().agora();
 		List<Filme> filmes = new ArrayList<Filme>();
 				filmes.addAll(Arrays.asList(new Filme("Uma linda mulher", 2, 10.00), new Filme("Top Gun", 1, 14.00),
 				new Filme("Pato Donald", 3, 12.00), new Filme("As Branquelas", 2, 12.00), new Filme("O Senhor dos Aneis", 2, 16.00),
@@ -243,7 +244,7 @@ public class LocacaoServiceTest {
 		Assume.assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
 		
 		//cenario
-		Usuario usuario = new Usuario("Mario");
+		Usuario usuario = umUsuario().agora();
 		List<Filme> filmes = new ArrayList<Filme>();
 				filmes.addAll(Arrays.asList(new Filme("Uma linda mulher", 2, 10.00), new Filme("Top Gun", 1, 14.00),
 				new Filme("Pato Donald", 3, 12.00), new Filme("As Branquelas", 2, 12.00), new Filme("O Senhor dos Aneis", 2, 16.00),
@@ -262,7 +263,7 @@ public class LocacaoServiceTest {
 	public void deveFornecerDescontoProgressivoParaVariosFilmes() throws Exception {
 		
 		//cenario
-		Usuario usuario = new Usuario("Mario");
+		Usuario usuario = umUsuario().agora();
 		List<Filme> filmes = new ArrayList<Filme>();
 				filmes.addAll(Arrays.asList(new Filme("Uma linda mulher", 2, 10.00), new Filme("Top Gun", 1, 15.00),
 				new Filme("Pato Donald", 3, 15.00), new Filme("As Branquelas", 2, 12.00), new Filme("Re Zero", 5, 13.00)
