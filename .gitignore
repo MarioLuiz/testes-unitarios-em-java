@@ -26,5 +26,6 @@ hs_err_pid*
 .idea
 target/classes/META-INF/maven/br.ce.wcaquino/TestesUnitarios/pom.properties
 
+*.properties
 pom.properties
 *pom.properties

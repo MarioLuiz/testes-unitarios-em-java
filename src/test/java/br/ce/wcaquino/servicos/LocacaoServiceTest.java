@@ -6,6 +6,7 @@ import static br.ce.wcaquino.matchers.MatchersProprios.caiNumaSegunda;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,6 +40,10 @@ import br.ce.wcaquino.utils.DataUtils;
 public class LocacaoServiceTest {
 
 	private LocacaoService service;
+	
+	private SPCService spc;
+	
+	private LocacaoDAO dao;
 
 	@Rule
 	public ErrorCollector error = new ErrorCollector();
@@ -49,8 +54,10 @@ public class LocacaoServiceTest {
 	@Before
 	public void setup() {
 		service = new LocacaoService();
-		LocacaoDAO dao = Mockito.mock(LocacaoDAO.class);
+		dao = Mockito.mock(LocacaoDAO.class);
 		service.setlocacaoDAO(dao);
+		spc = Mockito.mock(SPCService.class);
+		service.setSPCService(spc);
 	}
 
 	@After
@@ -264,32 +271,19 @@ public class LocacaoServiceTest {
 	}
 	
 	@Test
-	public void deveFornecerDescontoProgressivoParaVariosFilmes() throws Exception {
-		
+	public void naoDeveAlugarFilmeParaNegativadoSPC() throws FilmeSemEstoqueException, LocadoraException {
 		//cenario
 		Usuario usuario = umUsuario().agora();
-		List<Filme> filmes = new ArrayList<Filme>();
-				filmes.addAll(Arrays.asList(new Filme("Uma linda mulher", 2, 10.00), new Filme("Top Gun", 1, 15.00),
-				new Filme("Pato Donald", 3, 15.00), new Filme("As Branquelas", 2, 12.00), new Filme("Re Zero", 5, 13.00)
-				,new Filme("Chacal", 2, 13.00)));
+		List<Filme> filmes= Arrays.asList(umFilme().agora());
 		
-		// acao
-		Locacao locacao = service.alugarFilme(usuario, filmes);
-
-		// verificacao
-		for (int i = 0; i < filmes.size(); i++) {
-			if(i == 2) {
-				//assertThat(filmes.get(i).getDesconto.porcentagem, CoreMatchers.is(25.00));
-			}
-			if(i == 3) {
-				//assertThat(filmes.get(i).getDesconto.porcentagem, CoreMatchers.is(50.00));
-			}
-			if(i == 4) {
-				//assertThat(filmes.get(i).getDesconto.porcentagem, CoreMatchers.is(75.00));
-			}
-			if(i == 5) {
-				//assertThat(filmes.get(i).getDesconto.porcentagem, CoreMatchers.is(1.00));
-			}
-		}
+		when(spc.possuiNegativacao(usuario)).thenReturn(true);
+		
+		expectedException.expect(LocadoraException.class);
+		expectedException.expectMessage("Usuario Negativado");
+		
+		//acao
+		Locacao retorno = service.alugarFilme(usuario, filmes);
+		
+		
 	}
 }

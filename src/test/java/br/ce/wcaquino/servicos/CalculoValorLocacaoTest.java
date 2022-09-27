@@ -16,9 +16,7 @@ import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 import org.mockito.Mockito;
 
-import br.ce.wcaquino.builders.FilmeBuilder;
 import br.ce.wcaquino.daos.LocacaoDAO;
-import br.ce.wcaquino.daos.LocacaoDAOFake;
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
@@ -30,6 +28,10 @@ public class CalculoValorLocacaoTest {
 	
 	private LocacaoService service;
 	
+	private SPCService spc;
+	
+	private LocacaoDAO dao;
+
 	@Parameter
 	public List<Filme> filmes;
 	
@@ -42,8 +44,10 @@ public class CalculoValorLocacaoTest {
 	@Before
 	public void setup() {
 		service = new LocacaoService();
-		LocacaoDAO dao = Mockito.mock(LocacaoDAO.class);
+		dao = Mockito.mock(LocacaoDAO.class);
+		spc = Mockito.mock(SPCService.class);
 		service.setlocacaoDAO(dao);
+		service.setSPCService(spc);
 	}
 	
 	private static Filme filme1 = umFilme().comValor(4.00).agora(); 
