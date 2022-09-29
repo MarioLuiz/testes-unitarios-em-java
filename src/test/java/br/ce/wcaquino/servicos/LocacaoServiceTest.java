@@ -304,15 +304,23 @@ public class LocacaoServiceTest {
 	public void deveEnviarEmailParaLocacaoesAtrasadas() {
 		//cenario
 		Usuario usuario = umUsuario().agora();
+		Usuario usuario2= umUsuario().comNome("Usuario em dia").agora();
+		Usuario usuario3= umUsuario().comNome("Usuario com atraso").agora();
 		List<Locacao> locacoes = Arrays.asList(
-				umLocacao().comUsuario(usuario)
-				.comDataRetorno(DataUtils.obterDataComDiferencaDias(-2)).agora());
+				umLocacao().comUsuario(usuario).atrasado().agora(),
+				umLocacao().comUsuario(usuario2).agora(),
+				umLocacao().comUsuario(usuario3).atrasado().agora(),
+				umLocacao().comUsuario(usuario3).atrasado().agora());
 		Mockito.when(dao.obterLocacoesPendentes()).thenReturn(locacoes);
 		
 		//acao
 		service.notificarAtrasos();
 		
 		//verificacao
-		Mockito.verify(emailService).notificarAtraso(usuario);;
+		Mockito.verify(emailService, Mockito.times(2)).notificarAtraso(Mockito.any(Usuario.class));
+		Mockito.verify(emailService).notificarAtraso(usuario);
+		Mockito.verify(emailService, Mockito.times(2)).notificarAtraso(usuario3);
+		Mockito.verify(emailService, Mockito.never()).notificarAtraso(usuario2);
+		Mockito.verifyNoMoreInteractions(emailService);
 	}
 }
