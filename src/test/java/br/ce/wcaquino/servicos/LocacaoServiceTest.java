@@ -284,7 +284,7 @@ public class LocacaoServiceTest {
 		Usuario usuario = umUsuario().agora();
 		List<Filme> filmes= Arrays.asList(umFilme().agora());
 		
-		when(spc.possuiNegativacao(usuario)).thenReturn(true);
+		when(spc.possuiNegativacao(Mockito.any(Usuario.class))).thenReturn(true);
 		
 		//acao
 		try {
@@ -317,7 +317,7 @@ public class LocacaoServiceTest {
 		service.notificarAtrasos();
 		
 		//verificacao
-		Mockito.verify(emailService, Mockito.times(2)).notificarAtraso(Mockito.any(Usuario.class));
+		Mockito.verify(emailService, Mockito.times(3)).notificarAtraso(Mockito.any(Usuario.class));
 		Mockito.verify(emailService).notificarAtraso(usuario);
 		Mockito.verify(emailService, Mockito.times(2)).notificarAtraso(usuario3);
 		Mockito.verify(emailService, Mockito.never()).notificarAtraso(usuario2);
