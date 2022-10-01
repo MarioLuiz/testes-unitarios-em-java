@@ -23,17 +23,6 @@ public class LocacaoService {
 	
 	private EmailService emailService;
 	
-	public void setlocacaoDAO(LocacaoDAO dao) {
-		this.dao = dao;
-	}
-	
-	public void setSPCService(SPCService spcService) {
-		this.spcService = spcService;
-	}
-	
-	public void setEmailService(EmailService emailService) {
-		this.emailService = emailService;
-	}
 	
 	public Locacao alugarFilme(Usuario usuario, List<Filme> filmes) throws FilmeSemEstoqueException, LocadoraException {
 

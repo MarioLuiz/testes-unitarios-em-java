@@ -14,7 +14,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import br.ce.wcaquino.daos.LocacaoDAO;
 import br.ce.wcaquino.entidades.Filme;
@@ -26,10 +29,13 @@ import br.ce.wcaquino.exception.LocadoraException;
 @RunWith(Parameterized.class)
 public class CalculoValorLocacaoTest {
 	
+	@InjectMocks
 	private LocacaoService service;
 	
+	@Mock
 	private SPCService spc;
 	
+	@Mock
 	private LocacaoDAO dao;
 
 	@Parameter
@@ -43,11 +49,12 @@ public class CalculoValorLocacaoTest {
 	
 	@Before
 	public void setup() {
+		MockitoAnnotations.openMocks(this);
 		service = new LocacaoService();
-		dao = Mockito.mock(LocacaoDAO.class);
-		spc = Mockito.mock(SPCService.class);
-		service.setlocacaoDAO(dao);
-		service.setSPCService(spc);
+//		dao = Mockito.mock(LocacaoDAO.class);
+//		spc = Mockito.mock(SPCService.class);
+//		service.setlocacaoDAO(dao);
+//		service.setSPCService(spc);
 	}
 	
 	private static Filme filme1 = umFilme().comValor(4.00).agora(); 
