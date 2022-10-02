@@ -40,8 +40,13 @@ public class LocacaoService {
 			}
 		}
 		
-		if(spcService.possuiNegativacao(usuario)) {
-			throw new LocadoraException("Usuario Negativado");
+		try {
+			if(spcService.possuiNegativacao(usuario)) {
+				throw new LocadoraException("Usuario Negativado");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new LocadoraException("Problemas com SPC, tente novamente");
 		}
 
 		Locacao locacao = new Locacao();
