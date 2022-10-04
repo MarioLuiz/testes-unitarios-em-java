@@ -93,6 +93,15 @@ public class LocacaoService {
 			}
 		}
 	}
+	public void prorrogarLocacao(Locacao locacao, int dias) {
+		Locacao novaLocacao = new Locacao();
+		novaLocacao.setDataLocacao(new Date());
+		novaLocacao.setDataRetorno(DataUtils.obterDataComDiferencaDias(dias));
+		novaLocacao.setFilmes(locacao.getFilmes());
+		novaLocacao.setUsuario(locacao.getUsuario());
+		novaLocacao.setValor(locacao.getValor());
+		dao.salvar(novaLocacao);
+	}
 	
 	public static void main(String [] args) {
 		new BuilderMaster().gerarCodigoClasse(Locacao.class);
