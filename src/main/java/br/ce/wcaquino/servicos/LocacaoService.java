@@ -93,6 +93,7 @@ public class LocacaoService {
 			}
 		}
 	}
+	
 	public void prorrogarLocacao(Locacao locacao, int dias) {
 		Locacao novaLocacao = new Locacao();
 		novaLocacao.setDataLocacao(new Date());
