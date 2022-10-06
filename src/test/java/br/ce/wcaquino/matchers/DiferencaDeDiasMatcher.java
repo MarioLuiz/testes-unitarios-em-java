@@ -4,6 +4,8 @@ import br.ce.wcaquino.utils.DataUtils;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -18,7 +20,9 @@ public class DiferencaDeDiasMatcher extends TypeSafeMatcher<Date> {
 
     @Override
     public void describeTo(Description desc) {
-		desc.appendText("Diferença de dias não bate");
+    	Date dataEsperada = DataUtils.obterDataComDiferencaDias(diferencaDeDias);
+    	DateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY");
+		desc.appendText(dateFormat.format(dataEsperada) + " - Diferença de dias não bate");
     }
 
     @Override

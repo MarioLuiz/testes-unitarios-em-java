@@ -100,7 +100,7 @@ public class LocacaoService {
 		novaLocacao.setDataRetorno(DataUtils.obterDataComDiferencaDias(dias));
 		novaLocacao.setFilmes(locacao.getFilmes());
 		novaLocacao.setUsuario(locacao.getUsuario());
-		novaLocacao.setValor(locacao.getValor());
+		novaLocacao.setValor(locacao.getValor() * dias);
 		dao.salvar(novaLocacao);
 	}
 	
