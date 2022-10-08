@@ -17,6 +17,9 @@ public class CalculadoraMockTest {
 	@Spy
 	private Calculadora calcSpy;
 	
+	@Spy
+	private EmailService email;
+	
 	@Before
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
