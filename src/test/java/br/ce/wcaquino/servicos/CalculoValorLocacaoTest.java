@@ -1,30 +1,22 @@
 package br.ce.wcaquino.servicos;
 
 import static br.ce.wcaquino.builders.FilmeBuilder.umFilme;
-import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import br.ce.wcaquino.daos.LocacaoDAO;
 import br.ce.wcaquino.entidades.Filme;
-import br.ce.wcaquino.entidades.Locacao;
-import br.ce.wcaquino.entidades.Usuario;
-import br.ce.wcaquino.exception.FilmeSemEstoqueException;
-import br.ce.wcaquino.exception.LocadoraException;
 
 @RunWith(Parameterized.class)
 public class CalculoValorLocacaoTest {
@@ -77,17 +69,17 @@ public class CalculoValorLocacaoTest {
 		});
 	}
 	
-	@Test
-	public void deveCalcularValorLocacaoConsiderandoDescontos() throws FilmeSemEstoqueException, LocadoraException {
-		
-		//cenario
-		Usuario usuario = new Usuario("Mario");
-		
-		// acao
-		Locacao locacao = service.alugarFilme(usuario, filmes);
-
-		// verificacao
-		assertThat(locacao.getValor(), CoreMatchers.is(valorLocacao));
-	}
+//	@Test
+//	public void deveCalcularValorLocacaoConsiderandoDescontos() throws FilmeSemEstoqueException, LocadoraException {
+//		
+//		//cenario
+//		Usuario usuario = new Usuario("Mario");
+//		
+//		// acao
+//		Locacao locacao = service.alugarFilme(usuario, filmes);
+//
+//		// verificacao
+//		assertThat(locacao.getValor(), CoreMatchers.is(valorLocacao));
+//	}
 
 }
