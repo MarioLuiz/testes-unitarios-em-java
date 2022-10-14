@@ -68,18 +68,5 @@ public class CalculoValorLocacaoTest {
 			{Arrays.asList(filme1, filme2, filme3, filme4, filme5, filme6, filme7), 18.00, "7 filmes: Sem desconto"},
 		});
 	}
-	
-//	@Test
-//	public void deveCalcularValorLocacaoConsiderandoDescontos() throws FilmeSemEstoqueException, LocadoraException {
-//		
-//		//cenario
-//		Usuario usuario = new Usuario("Mario");
-//		
-//		// acao
-//		Locacao locacao = service.alugarFilme(usuario, filmes);
-//
-//		// verificacao
-//		assertThat(locacao.getValor(), CoreMatchers.is(valorLocacao));
-//	}
 
 }
