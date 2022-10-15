@@ -70,6 +70,7 @@ public class LocacaoServiceTest {
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
+		service = PowerMockito.spy(service);
 	}
 
 	@After
@@ -380,5 +381,18 @@ public class LocacaoServiceTest {
 		error.checkThat(locacaoRetornada.getValor(), is(30.00));
 		error.checkThat(locacaoRetornada.getDataLocacao(), MatchersProprios.ehHoje());
 		error.checkThat(locacaoRetornada.getDataRetorno(), MatchersProprios.ehHojeComDiferencaDeDias(3));
+	}
+	
+	@Test
+	public void deveAlugarFilmeSemCalcularValor() throws FilmeSemEstoqueException, LocadoraException {
+		// cenario
+		Usuario usuario = umUsuario().agora();
+		List<Filme> filmes = Arrays.asList(umFilme().agora());
+		
+		// acao
+		Locacao locacao = service.alugarFilme(usuario, filmes);
+		
+		// verificacao
+		Assert.assertThat(locacao.getValor(), is(1.0));
 	}
 }
