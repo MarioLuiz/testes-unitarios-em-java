@@ -384,15 +384,18 @@ public class LocacaoServiceTest {
 	}
 	
 	@Test
-	public void deveAlugarFilmeSemCalcularValor() throws FilmeSemEstoqueException, LocadoraException {
+	public void deveAlugarFilmeSemCalcularValor() throws Exception {
 		// cenario
 		Usuario usuario = umUsuario().agora();
 		List<Filme> filmes = Arrays.asList(umFilme().agora());
+		
+		PowerMockito.doReturn(1.0).when(service, "calcularValorLocacao", filmes);
 		
 		// acao
 		Locacao locacao = service.alugarFilme(usuario, filmes);
 		
 		// verificacao
 		Assert.assertThat(locacao.getValor(), is(1.0));
+		PowerMockito.verifyPrivate(service).invoke("calcularValorLocacao", filmes);
 	}
 }
